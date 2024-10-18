@@ -13,7 +13,7 @@
         body {
             font-family: "Montserrat", sans-serif;
             background-color: #0D0D0D;
-            color: #FFFFFF;
+            color: #F0F0F0; /* Brighter white */
             background-image: radial-gradient(circle at 25% 50%, #2b2b2b, #0d0d0d 75%);
             min-height: 100vh;
             padding-bottom: 50px;
@@ -37,9 +37,13 @@
             overflow: hidden;
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
         }
+        .form-control::placeholder {
+    color: #7A7A7A; /* Change to your desired color */
+    opacity: 1; /* Ensure full opacity for the color */
+}
         .form-control {
             background-color: #2E2E2E;
-            color: white;
+            color: #F0F0F0; /* Brighter text */
             border: 1px solid #444;
         }
         .form-control:focus {
@@ -77,11 +81,16 @@
         }
         .card a {
             text-decoration: none;
-            color: #FFF;
+            color: #F0F0F0; /* Brighter text */
             transition: color 0.3s;
         }
         .card a:hover {
             color: #FF6347;
+        }
+
+        /* Card Text Styling - Make text color white */
+        .card-body div {
+            color: #FFFFFF; /* White text color */
         }
 
         /* Image Styling */
@@ -105,7 +114,7 @@
         footer {
             text-align: center;
             margin-top: 30px;
-            color: #777;
+            color: #BBBBBB; /* Brighter footer text */
         }
 
         /* Dark Scrollbar */
@@ -171,7 +180,7 @@ $(document).ready(function() {
 
 function loadChannels() {
     $.ajax({
-        url: "https://raw.githubusercontent.com/byte-capsule/Toffee-Channels-Link-Headers/refs/heads/main/toffee_channel_data.json",
+        url: "data.php",
         type: "GET",
         dataType: "json",
         success: function(data) {
@@ -183,7 +192,7 @@ function loadChannels() {
 
                 if (!excludedChannels.includes(channelId) && channelId) {
                     html += `
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2" data-id="${channelId}" title="Watch ${channel.name} Live Stream" onclick="openPlayer(this)">
+                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2" data-id="${channelId}" title="Watch ${channel.name} Live Stream" onclick="openPlayer()">
                             <div align="center" class="card mt-2" title="Watch - ${channel.name}">
                                 <div>
                                     <img src="${channel.logo}" alt="${channel.name}" width="140" height="110" class="tvimage" />
@@ -214,14 +223,13 @@ function extractChannelId(link) {
     return 'default_channel'; // Default value if ID is not found
 }
 
-function openPlayer(element) {
-    let channelID = $(element).attr("data-id");
-    if (channelID && channelID !== "default_channel") {
-        let playerLink = `player.html?channel_id=${channelID}`;
-        window.location.href = playerLink;
-    } else {
-        alert("Sorry, this channel is not available.");
-    }
+function openPlayer() {
+    // Generate a random number for the channel ID
+    let randomChannelID = Math.floor(Math.random() * 100000) + 1; // Random number between 1 and 100000
+
+    // Redirect to the player page with the random channel ID
+    let playerLink = `player.html?channel_id=${randomChannelID}`;
+    window.location.href = playerLink;
 }
 </script>
 </body>
